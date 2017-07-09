@@ -97,3 +97,16 @@ window.onload = function() {
     console.log('test');
 
 };
+
+/*
+//Ready states
+
+
+0 - req not initialized
+1 - req has been set up
+2 - req has been sent
+3 - req is in process
+4 - req is complete
+
+
+*/
