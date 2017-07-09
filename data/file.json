@@ -1,0 +1,12 @@
+{
+    "tweets" : [
+        {
+            "name": "Good morning",
+            "status": "published"
+        },
+        {
+            "name": "Good evening",
+            "status": "draft"
+        }
+    ]
+}
