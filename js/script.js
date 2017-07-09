@@ -203,16 +203,100 @@ window.onload = function() {
 
 
     /****JQUERY PROMISES */
-    $.get('../data/file.json').then(function(data) {
-        console.log(data);
-        return $.get('../data/videos.json').then(function(data) {
-            console.log(data);
-            return $.get('../data/videos.json').then(function(data) {
-                console.log(data);
-            })
-        })
-    })
-    
+    // $.get('../data/file.json').then(function(data) {
+    //     console.log(data);
+    //     return $.get('../data/videos.json').then(function(data) {
+    //         console.log(data);
+    //         return $.get('../data/videos.json').then(function(data) {
+    //             console.log(data);
+    //         })
+    //     })
+    // })
+
+
+
+
+
+
+    /*** GENERATORS */
+
+    function* gen() {
+        // yield console.log('pear'); // JS goes from right to left in a statement. prints pear. pauses on yield !
+        // yield console.log('apple');
+        // yield console.log('banana');
+        // console.log('done all');
+        
+        // yield "pear";
+        // yield "apple";
+        // yield "banana";
+        // return "done all";
+
+        // var x = yield "pear";
+        // var y = yield "apple";
+        // var z = yield "banana";
+        // return x + y + z;
+
+        var x = yield 10;
+        console.log(x);
+    }
+
+    var generated = gen();
+    // generated.next();
+    // generated.next();
+    // generated.next();
+
+    // console.log(generated.next());
+    // console.log(generated.next());
+    // console.log(generated.next());
+    // console.log(generated.next());
+
+    // console.log(generated.next());
+    // console.log(generated.next(5)); // takes value of var x
+    // console.log(generated.next(10)); // takes value of var y
+    // console.log(generated.next(20)); // takes value of var z
+
+    console.log(generated.next());
+    console.log(generated.next());
+
+
+    genWrapper(function* generator() {
+    // Q.async(function* generator() {
+    // bluebird.async(function* generator() {
+
+        var tweets = yield $.getJSON('../data/file.json');
+        console.log(tweets);
+
+        var friends = yield $.getJSON('../data/friends.json');
+        console.log(friends);
+        
+        var videos = yield $.getJSON('../data/videos.json');
+        console.log(videos);
+        
+    });
+
+
+
+    function genWrapper(generator) {
+
+        // set up generator / iterator
+        var myGen = generator();
+
+        // create fn to handle yielded value
+        function handle(yielded) {
+            if(!yielded.done) {
+                yielded.value.then(function(data) {
+                    return handle(myGen.next(data));
+                });
+            }
+        }//end handle
+
+        // return handle fn, passing in myGen.next
+        return handle(myGen.next());
+
+    }//end genWrapper
+
+
+
 
 };
 
