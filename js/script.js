@@ -83,18 +83,136 @@ $('#form-container').submit(loadData);
 
 window.onload = function() {
 
-    var http = new XMLHttpRequest();
+    // var http = new XMLHttpRequest();
 
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 200) {
-            console.log(JSON.parse(http.response));
-        }
-    };
+    // http.onreadystatechange = function() {
+    //     if(http.readyState == 4 && http.status == 200) {
+    //         console.log(JSON.parse(http.response));
+    //     }
+    // };
 
-    http.open('GET', '../data/file.json', true);
-    http.send();
+    // http.open('GET', '../data/file.json', true);
+    // http.send();
 
-    console.log('test');
+    // console.log('test');
+
+    // /**  ASYNCHRONOUS CALLBACKS */
+    // $.get('../data/file.json', function(data) {
+    //     console.log(data);
+    // });
+    // console.log('test');
+
+
+    // /**** SYNCHRONOUS CALLBACKS */
+
+    // var fruits = ['apple', 'banana', 'mango'];
+
+    // /**** INLINE CALLBACKS */
+    
+    // // fruits.forEach(function(val) {
+    // //     console.log(val);
+    // // });
+
+    // var callback = function(val) {
+    //     console.log(val);
+    // }
+    // fruits.forEach(callback);
+    // console.log('done');
+
+
+
+
+    /** CALLBACK HELL SOLUTION SYNCHRONOUS WAY */
+
+    // function errorHandler(jqXHR, textStatus, error) {
+    //     console.log(error);
+    // }
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: "../data/file.json",
+    //     success: cbTweets,
+    //     error: errorHandler
+    // });
+
+    // function cbTweets (data) {
+    //     console.log(data);
+
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "../data/friends.json",
+    //         success: cbFriends,
+    //         error: errorHandler
+    //     });
+    // }
+
+    // function cbFriends (data) {
+    //     console.log(data);
+
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "../data/videos.json",
+    //         success: cbVideos,
+    //         error: errorHandler
+    //     });
+    // }
+
+    // function cbVideos (data) {
+    //     console.log(data);
+    // }
+    
+
+
+    /*** XMLHTTP req PROMISES */
+
+    // function get(url) {
+    //     return new Promise(function (resolve, reject) {
+    //         var xhttp = new XMLHttpRequest();
+    //         xhttp.open('GET', url, true);
+    //         xhttp.onload = function() {
+    //             if (xhttp.status == 200) {
+    //                 resolve(JSON.parse(xhttp.response));
+    //             } else {
+    //                 reject(xhttp.statusText);
+    //             }
+    //         };
+    //         xhttp.onerror = function() {
+    //             reject(xhttp.statusText);
+    //         }
+    //         xhttp.send();
+    //     });
+    // }      
+
+    // var promise = get('../data/file.json');
+    // promise.then(function(tweets) {
+    //     console.log(tweets);
+    //     return get('../data/friends.json');
+    // }).then(function(friends) {
+    //     console.log(friends);
+    //     return get('../data/videos.json');
+    // }).then(function(videos) {
+    //     console.log(videos);
+    // }).catch(function(error) {
+    //     console.log(error);
+    // });
+
+
+
+
+
+
+
+    /****JQUERY PROMISES */
+    $.get('../data/file.json').then(function(data) {
+        console.log(data);
+        return $.get('../data/videos.json').then(function(data) {
+            console.log(data);
+            return $.get('../data/videos.json').then(function(data) {
+                console.log(data);
+            })
+        })
+    })
+    
 
 };
 
@@ -108,5 +226,13 @@ window.onload = function() {
 3 - req is in process
 4 - req is complete
 
+*/
+
+
+/*
+
+callbacks - good
+promises - better
+generators - awesome
 
 */
